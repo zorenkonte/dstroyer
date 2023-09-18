@@ -32,7 +32,10 @@ fun app() {
 }
 
 fun main() = application {
-    Window(onCloseRequest = ::exitApplication) {
-        App()
+    Window(
+        onCloseRequest = ::exitApplication,
+        title = "DStroyer"
+    ) {
+        app()
     }
 }
