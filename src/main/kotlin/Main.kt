@@ -41,9 +41,11 @@ fun app() {
                 label = { Text("Path", fontSize = 24.sp) },
                 singleLine = true,
                 trailingIcon = {
-                    IconButton({}) {
-                        Button({ path.value = "" }) {
-                            Icon(Icons.Filled.Search, "Search")
+                    Box(modifier = Modifier.padding(end = 10.dp)) {
+                        IconButton({}) {
+                            Button({ path.value = "" }) {
+                                Icon(Icons.Filled.Search, "Search")
+                            }
                         }
                     }
                 },
