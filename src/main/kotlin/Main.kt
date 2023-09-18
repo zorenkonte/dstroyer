@@ -9,6 +9,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.*
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -43,7 +45,10 @@ fun app() {
                 trailingIcon = {
                     Box(modifier = Modifier.padding(end = 10.dp)) {
                         IconButton({}) {
-                            Button({ path.value = "" }) {
+                            Button(
+                                { path.value = "" },
+                                modifier = Modifier.pointerHoverIcon(PointerIcon.Hand)
+                            ) {
                                 Icon(Icons.Filled.Search, "Search")
                             }
                         }
