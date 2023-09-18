@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import kotlinx.coroutines.launch
+import java.io.File
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -93,5 +94,21 @@ fun main() = application {
 }
 
 private fun searchFiles(path: String) {
-    println("Path: $path")
+    val directory = File(path)
+
+    if (!directory.exists() || !directory.isDirectory) {
+        println("Invalid directory path")
+        return
+    }
+
+    val directories = directory.listFiles { file -> file.isDirectory() }
+
+    if (directories.isNullOrEmpty()) {
+        println("No directories found")
+        return
+    }
+
+    directories.forEach { dir ->
+        println(dir.name)
+    }
 }
