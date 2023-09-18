@@ -36,7 +36,7 @@ fun app() {
                 modifier = Modifier.fillMaxWidth()
                     .onPreviewKeyEvent {
                         if ((it.key == Key.NumPadEnter || it.key == Key.Enter) && it.type == KeyEventType.KeyUp) {
-                            println("Path: ${path.value}")
+                            searchFiles(path.value)
                             true
                         } else false
                     },
@@ -46,7 +46,7 @@ fun app() {
                     Box(modifier = Modifier.padding(end = 10.dp)) {
                         IconButton({}) {
                             Button(
-                                { path.value = "" },
+                                { searchFiles(path.value) },
                                 modifier = Modifier.pointerHoverIcon(PointerIcon.Hand)
                             ) {
                                 Icon(Icons.Filled.Search, "Search")
@@ -75,4 +75,8 @@ fun main() = application {
     ) {
         app()
     }
+}
+
+private fun searchFiles(path: String) {
+    println("Path: $path")
 }
