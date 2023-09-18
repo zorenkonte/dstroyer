@@ -1,8 +1,11 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.border
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -34,6 +37,7 @@ fun app() {
     val path = mutableStateOf("")
     val coroutineScope = rememberCoroutineScope()
     val focusRequester = remember { FocusRequester() }
+    val state = rememberLazyListState()
 
     MaterialTheme {
         Column(
@@ -87,12 +91,22 @@ fun app() {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(10.dp)
+                        .padding(10.dp),
+                    state = state
                 ) {
                     items(100) {
                         Text("Item $it")
                     }
                 }
+                VerticalScrollbar(
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .fillMaxHeight()
+                        .padding(10.dp),
+                    adapter = rememberScrollbarAdapter(
+                        scrollState = state
+                    )
+                )
             }
         }
     }
