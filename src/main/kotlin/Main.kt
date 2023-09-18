@@ -1,13 +1,18 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.key.*
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
@@ -16,12 +21,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 @Preview
 fun app() {
     val path = mutableStateOf("")
+    val coroutineScope = rememberCoroutineScope()
+    val focusRequester = remember { FocusRequester() }
 
     MaterialTheme {
         Column(
@@ -39,14 +47,21 @@ fun app() {
                             searchFiles(path.value)
                             true
                         } else false
-                    },
+                    }
+                    .focusable()
+                    .focusRequester(focusRequester),
                 label = { Text("Path", fontSize = 24.sp) },
                 singleLine = true,
                 trailingIcon = {
                     Box(modifier = Modifier.padding(end = 10.dp)) {
                         IconButton({}) {
                             Button(
-                                { searchFiles(path.value) },
+                                onClick = {
+                                    searchFiles(path.value)
+                                    coroutineScope.launch {
+                                        focusRequester.requestFocus()
+                                    }
+                                },
                                 modifier = Modifier.pointerHoverIcon(PointerIcon.Hand)
                             ) {
                                 Icon(Icons.Filled.Search, "Search")
