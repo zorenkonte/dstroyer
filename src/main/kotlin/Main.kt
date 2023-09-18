@@ -55,18 +55,16 @@ fun app() {
                 singleLine = true,
                 trailingIcon = {
                     Box(modifier = Modifier.padding(end = 10.dp)) {
-                        IconButton({}) {
-                            Button(
-                                onClick = {
-                                    searchFiles(path.value)
-                                    coroutineScope.launch {
-                                        focusRequester.requestFocus()
-                                    }
-                                },
-                                modifier = Modifier.pointerHoverIcon(PointerIcon.Hand)
-                            ) {
-                                Icon(Icons.Filled.Search, "Search")
-                            }
+                        Button(
+                            onClick = {
+                                searchFiles(path.value)
+                                coroutineScope.launch {
+                                    focusRequester.requestFocus()
+                                }
+                            },
+                            modifier = Modifier.pointerHoverIcon(PointerIcon.Hand)
+                        ) {
+                            Icon(Icons.Filled.Search, "Search")
                         }
                     }
                 },
@@ -108,7 +106,7 @@ private fun searchFiles(path: String) {
         return
     }
 
-    directories.forEach { dir ->
-        println(dir.name)
+    directories.forEach {
+        println(it.name)
     }
 }
