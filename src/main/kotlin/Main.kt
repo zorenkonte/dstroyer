@@ -1,6 +1,9 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.border
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -73,10 +76,23 @@ fun app() {
             Spacer(modifier = Modifier.height(16.dp))
 
             Box(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize()
+                    .border(
+                        width = 2.dp,
+                        color = MaterialTheme.colors.primary,
+                        shape = RoundedCornerShape(4.dp)
+                    ),
                 contentAlignment = Alignment.TopCenter
             ) {
-
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(10.dp)
+                ) {
+                    items(100) {
+                        Text("Item $it")
+                    }
+                }
             }
         }
     }
