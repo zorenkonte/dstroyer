@@ -85,7 +85,8 @@ fun app() {
 fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
-        title = "DStroyer"
+        title = "DStroyer",
+        resizable = false,
     ) {
         app()
     }
