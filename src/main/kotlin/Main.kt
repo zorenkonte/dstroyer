@@ -26,7 +26,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
+import androidx.compose.ui.window.rememberWindowState
 import kotlinx.coroutines.launch
 import java.awt.Window
 import java.io.File
@@ -115,10 +117,13 @@ fun app() {
 }
 
 fun main() = application {
+    val windowState = rememberWindowState(position = WindowPosition(Alignment.Center))
+
     Window(
         onCloseRequest = ::exitApplication,
         title = "DStroyer",
         resizable = false,
+        state = windowState
     ) {
         app()
     }
