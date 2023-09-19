@@ -28,7 +28,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import kotlinx.coroutines.launch
+import java.awt.Window
 import java.io.File
+import javax.swing.JOptionPane
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -122,18 +124,27 @@ fun main() = application {
     }
 }
 
+private fun showMessageDialog(message: String) {
+    JOptionPane.showMessageDialog(
+        Window.getWindows().first(),
+        message,
+        "Warning",
+        JOptionPane.WARNING_MESSAGE
+    )
+}
+
 private fun searchFiles(path: String) {
     val directory = File(path)
 
     if (!directory.exists() || !directory.isDirectory) {
-        println("Invalid directory path")
+        showMessageDialog("Invalid directory path")
         return
     }
 
     val directories = directory.listFiles { file -> file.isDirectory() }
 
     if (directories.isNullOrEmpty()) {
-        println("No directories found")
+        showMessageDialog("No directories found")
         return
     }
 
