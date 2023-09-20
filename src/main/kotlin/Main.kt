@@ -54,7 +54,7 @@ fun app() {
                 modifier = Modifier.fillMaxWidth()
                     .onPreviewKeyEvent {
                         if ((it.key == Key.NumPadEnter || it.key == Key.Enter) && it.type == KeyEventType.KeyUp) {
-                            searchFiles(path.value, FILE_EXTENSION)
+                            searchFilesAndDelete(path.value, FILE_EXTENSION)
                             true
                         } else false
                     }
@@ -69,7 +69,7 @@ fun app() {
                     Box(modifier = Modifier.padding(end = 10.dp)) {
                         Button(
                             onClick = {
-                                searchFiles(path.value, FILE_EXTENSION)
+                                searchFilesAndDelete(path.value, FILE_EXTENSION)
                                 coroutineScope.launch {
                                     focusRequester.requestFocus()
                                 }
@@ -119,7 +119,7 @@ private fun showMessageDialog(message: String) {
     )
 }
 
-private fun searchFiles(
+private fun searchFilesAndDelete(
     path: String,
     fileExtension: String
 ) {
