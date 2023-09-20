@@ -31,6 +31,8 @@ import java.awt.Window
 import java.io.File
 import javax.swing.JOptionPane
 
+const val FILE_EXTENSION = "DS_Store"
+
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 @Preview
@@ -52,7 +54,7 @@ fun app() {
                 modifier = Modifier.fillMaxWidth()
                     .onPreviewKeyEvent {
                         if ((it.key == Key.NumPadEnter || it.key == Key.Enter) && it.type == KeyEventType.KeyUp) {
-                            searchFiles(path.value)
+                            searchFiles(path.value, FILE_EXTENSION)
                             true
                         } else false
                     }
@@ -67,7 +69,7 @@ fun app() {
                     Box(modifier = Modifier.padding(end = 10.dp)) {
                         Button(
                             onClick = {
-                                searchFiles(path.value)
+                                searchFiles(path.value, FILE_EXTENSION)
                                 coroutineScope.launch {
                                     focusRequester.requestFocus()
                                 }
@@ -117,22 +119,28 @@ private fun showMessageDialog(message: String) {
     )
 }
 
-private fun searchFiles(path: String) {
+private fun searchFiles(
+    path: String,
+    fileExtension: String
+) {
     val directory = File(path)
 
-    if (!directory.exists() || !directory.isDirectory) {
-        showMessageDialog("Invalid directory path")
+    if (!directory.exists()) {
+        showMessageDialog("Directory not found.")
         return
     }
 
-    val directories = directory.listFiles { file -> file.isDirectory() }
+    var deletedFiles = 0
 
-    if (directories.isNullOrEmpty()) {
-        showMessageDialog("No directories found")
-        return
+    directory.walk().forEach {
+        if (it.extension == fileExtension) {
+            it.delete()
+            deletedFiles++
+        }
     }
 
-    directories.forEach {
-        println(it.name)
+    when (deletedFiles) {
+        0 -> showMessageDialog("No $fileExtension files found.")
+        else -> showMessageDialog("$deletedFiles $fileExtension files deleted.")
     }
 }
