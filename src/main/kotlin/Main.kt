@@ -139,8 +139,9 @@ private fun searchFilesAndDelete(
         }
     }
 
-    when (deletedFiles) {
-        0 -> showMessageDialog("No $fileExtension files found.")
-        else -> showMessageDialog("$deletedFiles $fileExtension files deleted.")
+    if (deletedFiles == 0) {
+        showMessageDialog("No $fileExtension files found.")
+    } else {
+        showMessageDialog("$deletedFiles $fileExtension files deleted.")
     }
 }
